@@ -1,12 +1,40 @@
-import { ScrollView, StyleSheet } from 'react-native';
-import LeavesScreen from '../../screens/LeaveScreen';
+import { StyleSheet } from 'react-native';
+import GenericDataScreen from '../../screens/GenericDataScreen';
+import { createLeave, deleteLeave, getLeaves, updateLeave } from '../modules/leaves/api';
+import { leaveFields } from '../modules/leaves/config';
 
-export default function TabTwoScreen() {
-  return (
-    <ScrollView style={{ backgroundColor: '#fff', marginTop: 30, padding: 24 }}>
-        <LeavesScreen />
-        {/* <UserScreen /> */}
-    </ScrollView>
+export default function Leave() {
+
+    const moduleConfig = {
+      title: 'Leave Requests',
+      fields: leaveFields,
+      primaryField: 'leaveType',
+      statusField: 'status',
+      dateFields: ['startDate', 'endDate'],
+      allowCreate: true,
+      allowEdit: true,
+      allowDelete: true,
+      confirmDelete: true,
+      theme: {
+        primary: '#e82938',
+        approved: '#4CAF50',
+        pending: '#FF9800',
+        rejected: '#F44336',
+      }
+    };
+
+    const apiService = {
+      getAll: getLeaves,
+      create: createLeave,
+      update: updateLeave,
+      delete: deleteLeave,
+    };
+
+   return (
+    <GenericDataScreen
+      moduleConfig={moduleConfig}
+      apiService={apiService}
+    />
   );
 }
 
