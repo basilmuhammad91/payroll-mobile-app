@@ -21,6 +21,7 @@ const LeavesScreen = () => {
   const [leaves, setLeaves] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [editingLeave, setEditingLeave] = useState(null);
 
   useEffect(() => {
     loadLeaves();
@@ -39,14 +40,39 @@ const LeavesScreen = () => {
     try {
       setLoading(true);
       await createLeave(formData);
-      setFormData({});
-      setModalVisible(false);
+      handleCloseModal();
       await loadLeaves();
     } catch (error) {
       console.error('Error creating leave:', error);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleOpenModal = (leave = null) => {
+    if (leave) {
+      setEditingLeave(leave);
+      setFormData(leave);
+    } else {
+      setEditingLeave(null);
+      setFormData({});
+    }
+    setModalVisible(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalVisible(false);
+    setEditingLeave(null);
+    setFormData({});
+  };
+
+  const getFieldValue = (item, fieldName) => {
+    return item[fieldName] || 'N/A';
+  };
+
+  const getFieldLabel = (fieldName) => {
+    const field = leaveFields.find(f => f.name === fieldName);
+    return field ? field.label : fieldName;
   };
 
   const getStatusColor = (status) => {
@@ -86,9 +112,15 @@ const LeavesScreen = () => {
   };
 
   const renderLeaveItem = ({ item }) => (
-    <View style={styles.leaveCard}>
+    <TouchableOpacity 
+      style={styles.leaveCard}
+      onPress={() => handleOpenModal(item)}
+      activeOpacity={0.7}
+    >
       <View style={styles.leaveHeader}>
-        <Text style={styles.leaveType}>{item.leaveType || 'Annual Leave'}</Text>
+        <Text style={styles.leaveType}>
+          {getFieldValue(item, 'leaveType') || 'Leave Request'}
+        </Text>
         <View
           style={[
             styles.statusBadge,
@@ -107,30 +139,47 @@ const LeavesScreen = () => {
       </View>
       
       <View style={styles.leaveDetails}>
-        <View style={styles.dateRow}>
-          <Ionicons name="calendar-outline" size={16} color="#666" />
-          <Text style={styles.dateText}>
-            {formatDate(item.startDate)} - {formatDate(item.endDate)}
-          </Text>
-        </View>
-        
-        {item.duration && (
-          <View style={styles.durationRow}>
-            <Ionicons name="time-outline" size={16} color="#666" />
-            <Text style={styles.durationText}>{item.duration} days</Text>
-          </View>
-        )}
-        
-        {item.reason && (
-          <View style={styles.reasonRow}>
-            <Ionicons name="document-text-outline" size={16} color="#666" />
-            <Text style={styles.reasonText} numberOfLines={2}>
-              {item.reason}
-            </Text>
-          </View>
-        )}
+        {leaveFields.map((field, index) => {
+          const value = getFieldValue(item, field.name);
+          if (field.name === 'status' || !value || value === 'N/A') return null;
+          
+          let displayValue = value;
+          let icon = 'information-circle-outline';
+          
+          // Format different field types
+          if (field.type === 'date') {
+            displayValue = formatDate(value);
+            icon = 'calendar-outline';
+          } else if (field.name === 'durationType') {
+            icon = 'time-outline';
+          } else if (field.name === 'reason') {
+            icon = 'document-text-outline';
+          } else if (field.name === 'leaveType') {
+            icon = 'folder-outline';
+          }
+          
+          return (
+            <View key={field.name} style={styles.fieldRow}>
+              <Ionicons name={icon} size={16} color="#666" />
+              <View style={styles.fieldContent}>
+                <Text style={styles.fieldLabel}>{getFieldLabel(field.name)}:</Text>
+                <Text 
+                  style={styles.fieldValue} 
+                  numberOfLines={field.name === 'reason' ? 2 : 1}
+                >
+                  {displayValue}
+                </Text>
+              </View>
+            </View>
+          );
+        })}
       </View>
-    </View>
+      
+      <View style={styles.cardFooter}>
+        <Text style={styles.tapHint}>Tap to edit</Text>
+        <Ionicons name="chevron-forward" size={16} color="#999" />
+      </View>
+    </TouchableOpacity>
   );
 
   const renderEmptyState = () => (
@@ -152,7 +201,7 @@ const LeavesScreen = () => {
         <Text style={styles.headerTitle}>Leave Requests</Text>
         <TouchableOpacity
           style={styles.addButton}
-          onPress={() => setModalVisible(true)}
+          onPress={() => handleOpenModal()}
         >
           <Ionicons name="add" size={24} color="#fff" />
         </TouchableOpacity>
@@ -172,24 +221,26 @@ const LeavesScreen = () => {
       />
 
       {/* Add Leave Modal */}
-      <Modal
+              <Modal
         animationType="slide"
         transparent={false}
         visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
+        onRequestClose={handleCloseModal}
       >
         <SafeAreaView style={styles.modalContainer}>
-          <StatusBar barStyle="light-content" backgroundColor="#FF6B6B" />
+          <StatusBar barStyle="light-content" backgroundColor="#e82938" />
           
           {/* Modal Header */}
           <View style={styles.modalHeader}>
             <TouchableOpacity
-              onPress={() => setModalVisible(false)}
+              onPress={handleCloseModal}
               style={styles.closeButton}
             >
               <Ionicons name="close" size={24} color="#fff" />
             </TouchableOpacity>
-            <Text style={styles.modalTitle}>New Leave Request</Text>
+            <Text style={styles.modalTitle}>
+              {editingLeave ? 'Edit Leave Request' : 'New Leave Request'}
+            </Text>
             <View style={styles.headerSpacer} />
           </View>
 
@@ -206,13 +257,13 @@ const LeavesScreen = () => {
           <View style={styles.modalFooter}>
             <TouchableOpacity
               style={styles.cancelButton}
-              onPress={() => setModalVisible(false)}
+              onPress={handleCloseModal}
             >
               <Text style={styles.cancelButtonText}>Cancel</Text>
             </TouchableOpacity>
             
             <CustomButton
-              title={loading ? "Submitting..." : "Submit Request"}
+              title={loading ? "Submitting..." : (editingLeave ? "Update Request" : "Submit Request")}
               onPress={handleSubmit}
               disabled={loading}
               style={styles.submitButton}
@@ -245,7 +296,7 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   addButton: {
-    backgroundColor: '#FF6B6B',
+    backgroundColor: '#e82938',
     width: 44,
     height: 44,
     borderRadius: 22,
@@ -298,36 +349,40 @@ const styles = StyleSheet.create({
     textTransform: 'capitalize',
   },
   leaveDetails: {
-    gap: 8,
+    gap: 12,
   },
-  dateRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  dateText: {
-    fontSize: 14,
-    color: '#666',
-  },
-  durationRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  durationText: {
-    fontSize: 14,
-    color: '#666',
-  },
-  reasonRow: {
+  fieldRow: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    gap: 8,
+    gap: 12,
   },
-  reasonText: {
-    fontSize: 14,
-    color: '#666',
+  fieldContent: {
     flex: 1,
-    lineHeight: 20,
+  },
+  fieldLabel: {
+    fontSize: 12,
+    color: '#999',
+    fontWeight: '500',
+    marginBottom: 2,
+  },
+  fieldValue: {
+    fontSize: 14,
+    color: '#333',
+    lineHeight: 18,
+  },
+  cardFooter: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 12,
+    paddingTop: 12,
+    borderTopWidth: 1,
+    borderTopColor: '#f0f0f0',
+  },
+  tapHint: {
+    fontSize: 12,
+    color: '#999',
+    fontStyle: 'italic',
   },
   emptyState: {
     alignItems: 'center',
@@ -356,7 +411,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 20,
     paddingVertical: 16,
-    backgroundColor: '#FF6B6B',
+    backgroundColor: '#e82938',
   },
   closeButton: {
     padding: 4,
