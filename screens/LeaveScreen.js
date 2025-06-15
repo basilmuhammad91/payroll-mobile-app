@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Button, View } from 'react-native';
+import { View } from 'react-native';
+import CustomButton from '../app/components/CustomButton';
 import DynamicForm from '../app/components/DynamicForm';
 import { createLeave, getLeaves } from '../app/modules/leaves/api';
 import { leaveFields } from '../app/modules/leaves/config';
@@ -27,7 +28,8 @@ const LeavesScreen = () => {
   return (
     <View>
       <DynamicForm fields={leaveFields} formData={formData} setFormData={setFormData} />
-      <Button title="Save" onPress={handleSubmit} />
+      {/* <Button title="Save" onPress={handleSubmit} /> */}
+      <CustomButton title="Submit" onPress={handleSubmit} />
     </View>
   );
 };
