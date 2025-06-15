@@ -1,10 +1,11 @@
 import { ScrollView, StyleSheet } from 'react-native';
-import UserScreen from '../../screens/UserScreen';
+import LeavesScreen from '../../screens/LeaveScreen';
 
 export default function TabTwoScreen() {
   return (
     <ScrollView style={{ backgroundColor: '#fff', marginTop: 30, padding: 24 }}>
-        <UserScreen />
+        <LeavesScreen />
+        {/* <UserScreen /> */}
     </ScrollView>
   );
 }
