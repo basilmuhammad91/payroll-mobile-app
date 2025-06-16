@@ -17,6 +17,7 @@ import { createLeave, getLeaves } from '../app/modules/leaves/api';
 import { leaveFields } from '../app/modules/leaves/config';
 
 const LeavesScreen = () => {
+  
   const [formData, setFormData] = useState({});
   const [leaves, setLeaves] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
@@ -36,10 +37,16 @@ const LeavesScreen = () => {
     }
   };
 
+
   const handleSubmit = async () => {
     try {
       setLoading(true);
-      await createLeave(formData);
+
+      const payload = {
+        data: [formData] 
+      };
+
+      await createLeave(payload);
       handleCloseModal();
       await loadLeaves();
     } catch (error) {
@@ -48,6 +55,7 @@ const LeavesScreen = () => {
       setLoading(false);
     }
   };
+
 
   const handleOpenModal = (leave = null) => {
     if (leave) {
