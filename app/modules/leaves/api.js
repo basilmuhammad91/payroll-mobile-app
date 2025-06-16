@@ -1,8 +1,8 @@
-import axios from 'axios';
+import { createOne, deleteOne, getAll, updateOne } from '../../api/genericApi';
 
-const API_URL = 'http://82.112.254.65:3000/api/';
+const RESOURCE = 'employees/leave';
 
-export const getLeaves = () => axios.get(API_URL);
-export const createLeave = (data) => axios.post(`${API_URL}/employees/leave`, data);
-export const updateLeave = (id, data) => axios.put(`${API_URL}/${id}`, data);
-export const deleteLeave = (id) => axios.delete(`${API_URL}/${id}`);
+export const getLeaves = () => getAll(RESOURCE);
+export const createLeave = (data) => createOne(RESOURCE, data);
+export const updateLeave = (id, data) => updateOne(RESOURCE, id, data);
+export const deleteLeave = (id) => deleteOne(RESOURCE, id);

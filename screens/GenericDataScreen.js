@@ -64,7 +64,8 @@ const GenericDataScreen = ({
     try {
       setRefreshing(true);
       const response = await apiService.getAll();
-      setData(response.data || response);
+      console.log(`Loaded ${config.title.toLowerCase()}:`, response?.data?.data);
+      setData(response.data?.data || response?.data);
     } catch (error) {
       console.error(`Error loading ${config.title.toLowerCase()}:`, error);
       Alert.alert('Error', `Failed to load ${config.title.toLowerCase()}`);

@@ -1,9 +1,10 @@
 import { StyleSheet } from 'react-native';
+import { createOne, deleteOne, getAll, updateOne } from '../../app/api/genericApi';
 import GenericDataScreen from '../../screens/GenericDataScreen';
-import { createLeave, deleteLeave, getLeaves, updateLeave } from '../modules/leaves/api';
 import { leaveFields } from '../modules/leaves/config';
 
 export default function Leave() {
+    const RESOURCE = 'employees/leave?employerId=CLIENT-005&page=1&limit=10';
 
     const moduleConfig = {
       title: 'Leave Requests',
@@ -24,10 +25,10 @@ export default function Leave() {
     };
 
     const apiService = {
-      getAll: getLeaves,
-      create: createLeave,
-      update: updateLeave,
-      delete: deleteLeave,
+      getAll: () => getAll(RESOURCE),
+      create: (data) => createOne(RESOURCE, data),
+      update: (id, data) => updateOne(RESOURCE, id, data),
+      delete: (id) => deleteOne(RESOURCE, id),
     };
 
    return (
