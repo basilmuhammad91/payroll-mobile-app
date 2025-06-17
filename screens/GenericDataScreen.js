@@ -123,7 +123,7 @@ const GenericDataScreen = ({
     try {
       setLoading(true);
       if (editingItem) {
-        await apiService.update(editingItem.id, formData);
+        await apiService.update(editingItem._id, formData);
       } else {
         await apiService.create(formData);
       }
@@ -155,7 +155,7 @@ const GenericDataScreen = ({
 
   const performDelete = async (item) => {
     try {
-      await apiService.delete(item.id);
+      await apiService.delete(item._id);
       await loadData(1, true); // Refresh from first page
       Alert.alert('Success', `${config.title} deleted successfully`);
     } catch (error) {
