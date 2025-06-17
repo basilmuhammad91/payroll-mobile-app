@@ -8,7 +8,7 @@ export const leaveFields = [
     required: true,
   },
   {
-    name: 'description',
+    name: 'leave_description',
     label: 'Description',
     placeholder: 'Enter description',
     type: 'text',

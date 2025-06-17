@@ -1,7 +1,7 @@
-// GenericDataScreen.js - Reusable component for managing any type of data
 import { Ionicons } from '@expo/vector-icons';
 import { useEffect, useState } from 'react';
 import {
+    ActivityIndicator,
     Alert,
     FlatList,
     Modal,
@@ -31,6 +31,13 @@ const GenericDataScreen = ({
   const [loading, setLoading] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
+  
+  // Pagination states
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [hasNextPage, setHasNextPage] = useState(false);
 
   // Module configuration with defaults
   const config = {
@@ -44,6 +51,11 @@ const GenericDataScreen = ({
     allowEdit: true,
     allowDelete: true,
     confirmDelete: true,
+    pagination: {
+      enabled: true,
+      limit: 10, // Default items per page
+      loadMore: true // Enable load more functionality
+    },
     theme: {
       primary: '#e82938',
       success: '#4CAF50',
@@ -57,20 +69,53 @@ const GenericDataScreen = ({
   };
 
   useEffect(() => {
-    loadData();
+    loadData(1, true);
   }, []);
 
-  const loadData = async () => {
+  const loadData = async (page = 1, reset = false) => {
     try {
-      setRefreshing(true);
-      const response = await apiService.getAll();
-      console.log(`Loaded ${config.title.toLowerCase()}:`, response?.data?.data);
-      setData(response.data?.data || response?.data);
+      if (reset) {
+        setRefreshing(true);
+        setCurrentPage(1);
+      } else {
+        setLoadingMore(true);
+      }
+
+      const response = await apiService.getAll(page, config.pagination.limit);
+      console.log(`Loaded ${config.title.toLowerCase()}:`, response?.data);
+      
+      const responseData = response.data?.data || response?.data || [];
+      const pagination = response.data?.pagination || {};
+      
+      if (reset) {
+        setData(responseData);
+      } else {
+        // Append new data for load more
+        setData(prevData => [...prevData, ...responseData]);
+      }
+      
+      // Update pagination info
+      setCurrentPage(pagination.page || page);
+      setTotalPages(pagination.totalPages || 1);
+      setTotalItems(pagination.total || responseData.length);
+      setHasNextPage(pagination.hasNextPage || (page < (pagination.totalPages || 1)));
+      
     } catch (error) {
       console.error(`Error loading ${config.title.toLowerCase()}:`, error);
       Alert.alert('Error', `Failed to load ${config.title.toLowerCase()}`);
     } finally {
       setRefreshing(false);
+      setLoadingMore(false);
+    }
+  };
+
+  const handleRefresh = () => {
+    loadData(1, true);
+  };
+
+  const handleLoadMore = () => {
+    if (!loadingMore && hasNextPage && config.pagination.loadMore) {
+      loadData(currentPage + 1, false);
     }
   };
 
@@ -83,7 +128,7 @@ const GenericDataScreen = ({
         await apiService.create(formData);
       }
       handleCloseModal();
-      await loadData();
+      await loadData(1, true); // Refresh from first page
       Alert.alert('Success', `${config.title} ${editingItem ? 'updated' : 'created'} successfully`);
     } catch (error) {
       console.error(`Error ${editingItem ? 'updating' : 'creating'} ${config.title.toLowerCase()}:`, error);
@@ -111,7 +156,7 @@ const GenericDataScreen = ({
   const performDelete = async (item) => {
     try {
       await apiService.delete(item.id);
-      await loadData();
+      await loadData(1, true); // Refresh from first page
       Alert.alert('Success', `${config.title} deleted successfully`);
     } catch (error) {
       console.error(`Error deleting ${config.title.toLowerCase()}:`, error);
@@ -310,6 +355,17 @@ const GenericDataScreen = ({
     );
   };
 
+  const renderLoadMoreFooter = () => {
+    if (!loadingMore) return null;
+    
+    return (
+      <View style={styles.loadMoreContainer}>
+        <ActivityIndicator size="small" color={config.theme.primary} />
+        <Text style={styles.loadMoreText}>Loading more...</Text>
+      </View>
+    );
+  };
+
   const renderEmptyState = () => {
     if (customEmptyState) {
       return customEmptyState(() => handleOpenModal());
@@ -326,13 +382,33 @@ const GenericDataScreen = ({
     );
   };
 
+  const renderPaginationInfo = () => {
+    if (!config.pagination.enabled || data.length === 0) return null;
+    
+    return (
+      <View style={styles.paginationInfo}>
+        <Text style={styles.paginationText}>
+          Showing {data.length} of {totalItems} items
+        </Text>
+        {totalPages > 1 && (
+          <Text style={styles.paginationText}>
+            Page {currentPage} of {totalPages}
+          </Text>
+        )}
+      </View>
+    );
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />
       
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>{customTitle || config.title}</Text>
+        <View style={styles.headerLeft}>
+          <Text style={styles.headerTitle}>{customTitle || config.title}</Text>
+          {renderPaginationInfo()}
+        </View>
         {config.allowCreate && (
           <TouchableOpacity
             style={[styles.addButton, { backgroundColor: config.theme.primary }]}
@@ -353,8 +429,11 @@ const GenericDataScreen = ({
           data.length === 0 && styles.emptyListContainer
         ]}
         ListEmptyComponent={renderEmptyState}
+        ListFooterComponent={renderLoadMoreFooter}
         refreshing={refreshing}
-        onRefresh={loadData}
+        onRefresh={handleRefresh}
+        onEndReached={handleLoadMore}
+        onEndReachedThreshold={0.5}
         showsVerticalScrollIndicator={false}
       />
 
@@ -423,17 +502,30 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     paddingHorizontal: 20,
     paddingVertical: 16,
     backgroundColor: '#fff',
     borderBottomWidth: 1,
     borderBottomColor: '#e9ecef',
   },
+  headerLeft: {
+    flex: 1,
+  },
   headerTitle: {
     fontSize: 24,
     fontWeight: 'bold',
     color: '#333',
+    marginBottom: 4,
+  },
+  paginationInfo: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  paginationText: {
+    fontSize: 12,
+    color: '#666',
   },
   addButton: {
     width: 44,
@@ -453,6 +545,17 @@ const styles = StyleSheet.create({
   emptyListContainer: {
     flex: 1,
     justifyContent: 'center',
+  },
+  loadMoreContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 20,
+    gap: 8,
+  },
+  loadMoreText: {
+    fontSize: 14,
+    color: '#666',
   },
   dataCard: {
     backgroundColor: '#fff',
