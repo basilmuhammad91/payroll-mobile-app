@@ -274,9 +274,9 @@ const GenericDataScreen = ({
         activeOpacity={0.7}
       >
         <View style={styles.cardHeader}>
-          <Text style={styles.cardTitle}>
+          {/* <Text style={styles.cardTitle}>
             {getFieldValue(item, config.primaryField)}
-          </Text>
+          </Text> */}
           {config.statusField && item[config.statusField] && (
             <View
               style={[
