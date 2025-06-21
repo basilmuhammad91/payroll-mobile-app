@@ -2,7 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-export default function Leave() {
+export default function PayrollOperations() {
   const navigation = useNavigation();
 
   return (
@@ -11,7 +11,7 @@ export default function Leave() {
 
       <TouchableOpacity
         style={styles.moduleCard}
-        onPress={() => navigation.navigate('LeaveList')}
+        onPress={() => navigation.navigate('LeaveScreen')}
       >
         <Ionicons name="paper-plane" size={24} color="#fff" />
         <Text style={styles.moduleText}>Payment Operations</Text>
