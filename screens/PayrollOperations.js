@@ -44,6 +44,35 @@ export default function PayrollOperations() {
         </Text>
       </TouchableOpacity>
 
+      <TouchableOpacity
+        style={styles.moduleCard}
+        onPress={() => navigation.navigate("ParentCostCenterScreen")}
+      >
+        <Ionicons name="paper-plane" size={24} color="#fff" />
+        <Text style={styles.moduleText}>
+          Parent Cost Center
+        </Text>
+      </TouchableOpacity>
+
+<TouchableOpacity
+        style={styles.moduleCard}
+        onPress={() => navigation.navigate("BankScreen")}
+      >
+        <Ionicons name="paper-plane" size={24} color="#fff" />
+        <Text style={styles.moduleText}>
+          Bank Details
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.moduleCard}
+        onPress={() => navigation.navigate("AllowanceScreen")}
+      >
+        <Ionicons name="paper-plane" size={24} color="#fff" />
+        <Text style={styles.moduleText}>
+          Allowances
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 }

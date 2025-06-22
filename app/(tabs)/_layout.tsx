@@ -1,9 +1,12 @@
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { themeConfig } from '@/config/appConfig';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import AllowanceScreen from '@/screens/AllowanceScreen';
+import BankScreen from '@/screens/BankScreen';
 import DepartmentScreen from '@/screens/DepartmentScreen';
 import EmployeeTypeScreen from '@/screens/EmployeeTypeScreen';
 import LeaveScreen from '@/screens/LeaveScreen';
+import ParentCostCenterScreen from '@/screens/ParentCostCenterScreen';
 import PayrollOperations from '@/screens/PayrollOperations';
 import WorkLocationScreen from '@/screens/WorkLocationScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -54,6 +57,24 @@ export default function TabLayout() {
           name="EmployeeTypeScreen"
           component={EmployeeTypeScreen}
           options={{ title: 'Employee Type' }}
+        />
+
+        <Stack.Screen
+          name="ParentCostCenterScreen"
+          component={ParentCostCenterScreen}
+          options={{ title: 'Parent Cost Center' }}
+        />
+
+        <Stack.Screen
+          name="BankScreen"
+          component={BankScreen}
+          options={{ title: 'Bank' }}
+        />
+
+        <Stack.Screen
+          name="AllowanceScreen"
+          component={AllowanceScreen}
+          options={{ title: 'Allowance' }}
         />
 
       </Stack.Navigator>

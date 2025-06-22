@@ -100,3 +100,67 @@ export const employeeTypeFields = [
   },
 ];
 
+export const parentCostCenterFields = [
+  {
+    name: 'cost_center',
+    label: 'Cost Center',
+    placeholder: 'Enter Cost Center',
+    type: 'text',
+    icon: 'file-text',
+    required: true,
+  },
+  {
+    name: 'cost_center_description',
+    label: 'Description',
+    placeholder: 'Enter description',
+    type: 'text',
+    icon: 'file-text',
+    required: true,
+  },
+   {
+    name: 'code',
+    label: 'Code',
+    placeholder: 'Enter Code',
+    type: 'number',
+    icon: 'file-text',
+    required: true,
+  },
+];
+
+export const bankFields = [
+  {
+    name: 'bank',
+    label: 'Bank',
+    placeholder: 'Enter Bank Name',
+    type: 'text',
+    icon: 'file-text',
+    required: true,
+  },
+  {
+    name: 'bank_description',
+    label: 'Description',
+    placeholder: 'Enter description',
+    type: 'text',
+    icon: 'file-text',
+    required: true,
+  },
+];
+
+export const allowanceFields = [
+  {
+    name: 'allownce',
+    label: 'Allowance',
+    placeholder: 'Enter Allowance',
+    type: 'text',
+    icon: 'file-text',
+    required: true,
+  },
+  {
+    name: 'allownce_description',
+    label: 'Description',
+    placeholder: 'Enter description',
+    type: 'text',
+    icon: 'file-text',
+    required: true,
+  },
+];
