@@ -1,17 +1,17 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useEffect, useState } from 'react';
 import {
-    ActivityIndicator,
-    Alert,
-    FlatList,
-    Modal,
-    SafeAreaView,
-    ScrollView,
-    StatusBar,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  ActivityIndicator,
+  Alert,
+  FlatList,
+  Modal,
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import CustomButton from '../app/components/CustomButton';
 import DynamicForm from '../app/components/DynamicForm';
@@ -40,33 +40,7 @@ const GenericDataScreen = ({
   const [hasNextPage, setHasNextPage] = useState(false);
 
   // Module configuration with defaults
-  const config = {
-    title: 'Data Management',
-    fields: [],
-    primaryField: 'name', // Field to show as main title in cards
-    statusField: 'status', // Field to show as status badge
-    dateFields: [], // Fields that should be formatted as dates
-    iconField: null, // Field that determines the card icon
-    allowCreate: true,
-    allowEdit: true,
-    allowDelete: true,
-    confirmDelete: true,
-    pagination: {
-      enabled: true,
-      limit: 10, // Default items per page
-      loadMore: true // Enable load more functionality
-    },
-    theme: {
-      primary: '#e82938',
-      success: '#4CAF50',
-      warning: '#FF9800',
-      error: '#F44336',
-      pending: '#FF9800',
-      approved: '#4CAF50',
-      rejected: '#F44336',
-    },
-    ...moduleConfig
-  };
+ 
 
   useEffect(() => {
     loadData(1, true);

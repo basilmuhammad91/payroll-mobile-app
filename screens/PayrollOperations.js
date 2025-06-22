@@ -1,3 +1,4 @@
+import { themeConfig } from '@/app/modules/leaves/config';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -7,14 +8,14 @@ export default function PayrollOperations() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>HR Modules</Text>
+      <Text style={styles.heading}>Payment Operations</Text>
 
       <TouchableOpacity
         style={styles.moduleCard}
         onPress={() => navigation.navigate('LeaveScreen')}
       >
         <Ionicons name="paper-plane" size={24} color="#fff" />
-        <Text style={styles.moduleText}>Payment Operations</Text>
+        <Text style={styles.moduleText}>Leaves</Text>
       </TouchableOpacity>
     </View>
   );
@@ -34,7 +35,7 @@ const styles = StyleSheet.create({
   moduleCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#007AFF',
+    backgroundColor: themeConfig.primary,
     padding: 16,
     borderRadius: 10,
     marginBottom: 12,

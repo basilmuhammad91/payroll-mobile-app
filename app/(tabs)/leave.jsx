@@ -7,7 +7,7 @@ export default function Leave() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>HR Modules</Text>
+      <Text style={styles.heading}>Modules</Text>
 
       <TouchableOpacity
         style={styles.moduleCard}
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   moduleCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#007AFF',
+    backgroundColor: '#e82938',
     padding: 16,
     borderRadius: 10,
     marginBottom: 12,
