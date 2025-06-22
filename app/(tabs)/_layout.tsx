@@ -3,6 +3,7 @@ import { themeConfig } from '@/config/appConfig';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import AllowanceScreen from '@/screens/AllowanceScreen';
 import BankScreen from '@/screens/BankScreen';
+import CostCenterScreen from '@/screens/CostCenterScreen';
 import DepartmentScreen from '@/screens/DepartmentScreen';
 import EmployeeTypeScreen from '@/screens/EmployeeTypeScreen';
 import LeaveScreen from '@/screens/LeaveScreen';
@@ -75,6 +76,12 @@ export default function TabLayout() {
           name="AllowanceScreen"
           component={AllowanceScreen}
           options={{ title: 'Allowance' }}
+        />
+
+         <Stack.Screen
+          name="CostCenterScreen"
+          component={CostCenterScreen}
+          options={{ title: 'Cost Center' }}
         />
 
       </Stack.Navigator>

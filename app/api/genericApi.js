@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://82.112.254.65:3000/api';
+export const API_BASE_URL = 'http://82.112.254.65:3000/api';
 
 // Helper function to build query parameters
 const buildQueryParams = (params) => {
@@ -45,12 +45,22 @@ export const getAll = (resource, page = 1, limit = 10, additionalParams = {}) =>
 
 // Original functions remain the same
 export const getOne = (resource, id) => axios.get(`${API_BASE_URL}/${resource}/${id}`);
-export const createOne = (resource, data) => {
-  const { baseResource } = extractPaginationFromResource(resource);
-  const payload = {data: [data]}
-  console.log("data...", data)
-  const response = axios.post(`${API_BASE_URL}/${baseResource}`, payload);
-  return response;
+export const createOne = async (resource, data) => {
+  try {
+    const { baseResource } = extractPaginationFromResource(resource);
+    const payload = { data: [data] };
+    
+    console.log("Payload being sent:", payload);
+
+    const response = await axios.post(`${API_BASE_URL}/${baseResource}`, payload);
+    
+    console.log("Server response:", response.data);
+    
+    return response;
+  } catch (error) {
+    console.error("Error in createOne:", error.response?.data || error.message);
+    throw error;
+  }
 };
 export const updateOne = (resource, id, data) => {
   const { baseResource } = extractPaginationFromResource(resource);
@@ -81,7 +91,9 @@ export const searchAll = (resource, searchParams = {}, page = 1, limit = 10) => 
 // Bulk operations
 export const createMany = (resource, dataArray) => {
   const { baseResource } = extractPaginationFromResource(resource);
-  return axios.post(`${API_BASE_URL}/${baseResource}/bulk`, { data: dataArray });
+  const response = axios.post(`${API_BASE_URL}/${baseResource}/bulk`, { data: dataArray });
+  console.error("createMany response...", response)
+  return response
 };
 
 export const updateMany = (resource, updates) => {

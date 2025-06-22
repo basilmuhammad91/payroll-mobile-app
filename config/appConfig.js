@@ -105,7 +105,7 @@ export const parentCostCenterFields = [
     name: 'cost_center',
     label: 'Cost Center',
     placeholder: 'Enter Cost Center',
-    type: 'text',
+    type: 'number',
     icon: 'file-text',
     required: true,
   },
@@ -162,5 +162,45 @@ export const allowanceFields = [
     type: 'text',
     icon: 'file-text',
     required: true,
+  },
+];
+
+export const costCenterFields = [
+  {
+    name: 'code',
+    label: 'Code',
+    placeholder: 'Enter Code',
+    type: 'number',
+    icon: 'file-text',
+    required: true,
+  },
+  {
+    name: 'cost_center',
+    label: 'Cost Center',
+    placeholder: 'Enter Cost Center',
+    type: 'text',
+    icon: 'file-text',
+    required: true,
+  },
+  {
+    name: 'cost_center_description',
+    label: 'Description',
+    placeholder: 'Enter description',
+    type: 'text',
+    icon: 'file-text',
+    required: true,
+  },
+  {
+    name: 'parentId',
+    label: 'Parent Cost Center',
+    placeholder: 'Select Parent Cost Center',
+    type: 'select', 
+    icon: 'file-text',
+    required: true,
+    optionsSource: {
+      endpoint: '/employees/parentCostCenter?employerId=CLIENT-005&page=1&limit=10',
+      valueKey: '_id', 
+      labelKey: 'cost_center', 
+    },
   },
 ];

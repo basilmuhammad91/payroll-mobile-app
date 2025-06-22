@@ -73,6 +73,17 @@ export default function PayrollOperations() {
           Allowances
         </Text>
       </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.moduleCard}
+        onPress={() => navigation.navigate("CostCenterScreen")}
+      >
+        <Ionicons name="paper-plane" size={24} color="#fff" />
+        <Text style={styles.moduleText}>
+          Cost Center
+        </Text>
+      </TouchableOpacity>
+
     </View>
   );
 }
