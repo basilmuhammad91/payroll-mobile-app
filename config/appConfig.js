@@ -61,3 +61,23 @@ export const departmentFields = [
     required: true,
   },
 ];
+
+export const workLocationFields = [
+  {
+    name: 'work_location',
+    label: 'Work Location',
+    placeholder: 'Enter Work Location Name',
+    type: 'text',
+    icon: 'file-text',
+    required: true,
+  },
+  {
+    name: 'work_location_description',
+    label: 'Description',
+    placeholder: 'Enter description',
+    type: 'text',
+    icon: 'file-text',
+    required: true,
+  },
+];
+

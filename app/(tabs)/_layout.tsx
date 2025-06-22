@@ -4,6 +4,7 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import DepartmentScreen from '@/screens/DepartmentScreen';
 import LeaveScreen from '@/screens/LeaveScreen';
 import PayrollOperations from '@/screens/PayrollOperations';
+import WorkLocationScreen from '@/screens/WorkLocationScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
@@ -41,6 +42,13 @@ export default function TabLayout() {
           component={DepartmentScreen}
           options={{ title: 'Department' }}
         />
+
+         <Stack.Screen
+          name="WorkLocationScreen"
+          component={WorkLocationScreen}
+          options={{ title: 'Work Location' }}
+        />
+
       </Stack.Navigator>
     );
   }

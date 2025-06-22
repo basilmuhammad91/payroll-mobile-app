@@ -25,6 +25,14 @@ export default function PayrollOperations() {
         <Ionicons name="paper-plane" size={24} color="#fff" />
         <Text style={styles.moduleText}>Departments</Text>
       </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.moduleCard}
+        onPress={() => navigation.navigate("WorkLocationScreen")}
+      >
+        <Ionicons name="paper-plane" size={24} color="#fff" />
+        <Text style={styles.moduleText}>Work Location</Text>
+      </TouchableOpacity>
     </View>
   );
 }
