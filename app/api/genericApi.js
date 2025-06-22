@@ -48,6 +48,7 @@ export const getOne = (resource, id) => axios.get(`${API_BASE_URL}/${resource}/$
 export const createOne = (resource, data) => {
   const { baseResource } = extractPaginationFromResource(resource);
   const payload = {data: [data]}
+  console.log("data...", data)
   const response = axios.post(`${API_BASE_URL}/${baseResource}`, payload);
   return response;
 };

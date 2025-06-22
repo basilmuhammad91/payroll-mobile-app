@@ -1,11 +1,12 @@
 import { IconSymbol } from '@/components/ui/IconSymbol';
+import { themeConfig } from '@/config/appConfig';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import LeaveScreen from '@/screens/LeaveScreen';
 import PayrollOperations from '@/screens/PayrollOperations';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-import { themeConfig } from '../modules/leaves/config';
+
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -14,7 +15,7 @@ export default function TabLayout() {
   const maroon = '#e82938';
 
 
-  function LeaveStack() {
+  function PaymentOperationStack() {
     return (
       <Stack.Navigator
         initialRouteName="PayrollOperations"
@@ -49,7 +50,7 @@ export default function TabLayout() {
     >
       <Tab.Screen
         name="Leaves"
-        component={LeaveStack}
+        component={PaymentOperationStack}
         options={{
           tabBarIcon: ({ color }) => (
             <IconSymbol size={28} name="paperplane.fill" color={color} />

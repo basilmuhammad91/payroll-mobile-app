@@ -1,3 +1,13 @@
+export const themeConfig = {
+    primary: '#e82938',
+    success: '#4CAF50',
+    warning: '#FF9800',
+    error: '#F44336',
+    pending: '#FF9800',
+    approved: '#4CAF50',
+    rejected: '#F44336',
+}
+
 export const leaveFields = [
   {
     name: 'leave',
@@ -32,13 +42,3 @@ export const leaveFields = [
     required: false,
   },
 ];
-
- export const themeConfig = {
-    primary: '#e82938',
-    success: '#4CAF50',
-    warning: '#FF9800',
-    error: '#F44336',
-    pending: '#FF9800',
-    approved: '#4CAF50',
-    rejected: '#F44336',
-}

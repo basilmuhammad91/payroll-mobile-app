@@ -1,8 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 import { createOne, deleteOne, getAll, updateOne } from '../app/api/genericApi';
-
-import { leaveFields } from '../config/appConfig';
+import { leaveFields } from '../app/config';
 import GenericDataScreen from './GenericDataScreen';
 
 export default function LeaveScreen() {

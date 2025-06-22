@@ -39,7 +39,7 @@ const GenericDataScreen = ({
   const [loadingMore, setLoadingMore] = useState(false);
   const [hasNextPage, setHasNextPage] = useState(false);
 
-  // Module configuration with defaults
+  // Module moduleConfiguration with defaults
  
 
   useEffect(() => {
@@ -55,8 +55,8 @@ const GenericDataScreen = ({
         setLoadingMore(true);
       }
 
-      const response = await apiService.getAll(page, config.pagination.limit);
-      console.log(`Loaded ${config.title.toLowerCase()}:`, response?.data);
+      const response = await apiService.getAll(page, moduleConfig.pagination.limit);
+      console.log(`Loaded ${moduleConfig.title.toLowerCase()}:`, response?.data);
       
       const responseData = response.data?.data || response?.data || [];
       const pagination = response.data?.pagination || {};
@@ -75,8 +75,8 @@ const GenericDataScreen = ({
       setHasNextPage(pagination.hasNextPage || (page < (pagination.totalPages || 1)));
       
     } catch (error) {
-      console.error(`Error loading ${config.title.toLowerCase()}:`, error);
-      Alert.alert('Error', `Failed to load ${config.title.toLowerCase()}`);
+      console.error(`Error loading ${moduleConfig.title.toLowerCase()}:`, error);
+      Alert.alert('Error', `Failed to load ${moduleConfig.title.toLowerCase()}`);
     } finally {
       setRefreshing(false);
       setLoadingMore(false);
@@ -88,7 +88,7 @@ const GenericDataScreen = ({
   };
 
   const handleLoadMore = () => {
-    if (!loadingMore && hasNextPage && config.pagination.loadMore) {
+    if (!loadingMore && hasNextPage && moduleConfig.pagination.loadMore) {
       loadData(currentPage + 1, false);
     }
   };
@@ -103,20 +103,20 @@ const GenericDataScreen = ({
       }
       handleCloseModal();
       await loadData(1, true); // Refresh from first page
-      Alert.alert('Success', `${config.title} ${editingItem ? 'updated' : 'created'} successfully`);
+      Alert.alert('Success', `${moduleConfig.title} ${editingItem ? 'updated' : 'created'} successfully`);
     } catch (error) {
-      console.error(`Error ${editingItem ? 'updating' : 'creating'} ${config.title.toLowerCase()}:`, error);
-      Alert.alert('Error', `Failed to ${editingItem ? 'update' : 'create'} ${config.title.toLowerCase()}`);
+      console.error(`Error ${editingItem ? 'updating' : 'creating'} ${moduleConfig.title.toLowerCase()}:`, error);
+      Alert.alert('Error', `Failed to ${editingItem ? 'update' : 'create'} ${moduleConfig.title.toLowerCase()}`);
     } finally {
       setLoading(false);
     }
   };
 
   const handleDelete = async (item) => {
-    if (config.confirmDelete) {
+    if (moduleConfig.confirmDelete) {
       Alert.alert(
         'Confirm Delete',
-        `Are you sure you want to delete this ${config.title.toLowerCase()}?`,
+        `Are you sure you want to delete this ${moduleConfig.title.toLowerCase()}?`,
         [
           { text: 'Cancel', style: 'cancel' },
           { text: 'Delete', style: 'destructive', onPress: () => performDelete(item) }
@@ -131,10 +131,10 @@ const GenericDataScreen = ({
     try {
       await apiService.delete(item._id);
       await loadData(1, true); // Refresh from first page
-      Alert.alert('Success', `${config.title} deleted successfully`);
+      Alert.alert('Success', `${moduleConfig.title} deleted successfully`);
     } catch (error) {
-      console.error(`Error deleting ${config.title.toLowerCase()}:`, error);
-      Alert.alert('Error', `Failed to delete ${config.title.toLowerCase()}`);
+      console.error(`Error deleting ${moduleConfig.title.toLowerCase()}:`, error);
+      Alert.alert('Error', `Failed to delete ${moduleConfig.title.toLowerCase()}`);
     }
   };
 
@@ -158,7 +158,7 @@ const GenericDataScreen = ({
   const handleItemPress = (item) => {
     if (onItemPress) {
       onItemPress(item);
-    } else if (config.allowEdit) {
+    } else if (moduleConfig.allowEdit) {
       handleOpenModal(item);
     }
   };
@@ -168,13 +168,13 @@ const GenericDataScreen = ({
   };
 
   const getFieldLabel = (fieldName) => {
-    const field = config.fields.find(f => f.name === fieldName);
+    const field = moduleConfig.fields.find(f => f.name === fieldName);
     return field ? field.label : fieldName.charAt(0).toUpperCase() + fieldName.slice(1);
   };
 
   const getStatusColor = (status) => {
     const statusLower = status?.toLowerCase();
-    return config.theme[statusLower] || config.theme.pending;
+    return moduleConfig.theme[statusLower] || moduleConfig.theme.pending;
   };
 
   const getStatusBackgroundColor = (status) => {
@@ -238,7 +238,7 @@ const GenericDataScreen = ({
 
   const renderDataItem = ({ item }) => {
     if (customCardRenderer) {
-      return customCardRenderer(item, handleItemPress, handleDelete, config);
+      return customCardRenderer(item, handleItemPress, handleDelete, moduleConfig);
     }
 
     return (
@@ -249,37 +249,37 @@ const GenericDataScreen = ({
       >
         <View style={styles.cardHeader}>
           {/* <Text style={styles.cardTitle}>
-            {getFieldValue(item, config.primaryField)}
+            {getFieldValue(item, moduleConfig.primaryField)}
           </Text> */}
-          {config.statusField && item[config.statusField] && (
+          {moduleConfig.statusField && item[moduleConfig.statusField] && (
             <View
               style={[
                 styles.statusBadge,
-                { backgroundColor: getStatusBackgroundColor(item[config.statusField]) }
+                { backgroundColor: getStatusBackgroundColor(item[moduleConfig.statusField]) }
               ]}
             >
               <Text
                 style={[
                   styles.statusText,
-                  { color: getStatusColor(item[config.statusField]) }
+                  { color: getStatusColor(item[moduleConfig.statusField]) }
                 ]}
               >
-                {item[config.statusField]}
+                {item[moduleConfig.statusField]}
               </Text>
             </View>
           )}
         </View>
         
         <View style={styles.cardDetails}>
-          {config.fields.slice(0, 4).map((field) => {
+          {moduleConfig.fields.slice(0, 4).map((field) => {
             const value = getFieldValue(item, field.name);
-            if (field.name === config.statusField || field.name === config.primaryField || !value || value === 'N/A') return null;
+            if (field.name === moduleConfig.statusField || field.name === moduleConfig.primaryField || !value || value === 'N/A') return null;
             
             let displayValue = value;
             const icon = getFieldIcon(field);
             
             // Format dates
-            if (config.dateFields.includes(field.name) || field.type === 'date') {
+            if (moduleConfig.dateFields.includes(field.name) || field.type === 'date') {
               displayValue = formatDate(value);
             }
             
@@ -302,19 +302,19 @@ const GenericDataScreen = ({
         
         <View style={styles.cardFooter}>
           <Text style={styles.tapHint}>
-            {config.allowEdit ? 'Tap to edit' : 'Tap to view'}
+            {moduleConfig.allowEdit ? 'Tap to edit' : 'Tap to view'}
           </Text>
           <View style={styles.cardActions}>
             {customActions.map((action, index) => (
               <TouchableOpacity
                 key={index}
-                style={[styles.actionButton, { backgroundColor: action.color || config.theme.primary }]}
+                style={[styles.actionButton, { backgroundColor: action.color || moduleConfig.theme.primary }]}
                 onPress={() => action.onPress(item)}
               >
                 <Ionicons name={action.icon} size={16} color="#fff" />
               </TouchableOpacity>
             ))}
-            {config.allowDelete && (
+            {moduleConfig.allowDelete && (
               <TouchableOpacity
                 style={[styles.actionButton, styles.deleteButton]}
                 onPress={() => handleDelete(item)}
@@ -334,7 +334,7 @@ const GenericDataScreen = ({
     
     return (
       <View style={styles.loadMoreContainer}>
-        <ActivityIndicator size="small" color={config.theme.primary} />
+        <ActivityIndicator size="small" color={moduleConfig.theme.primary} />
         <Text style={styles.loadMoreText}>Loading more...</Text>
       </View>
     );
@@ -348,16 +348,16 @@ const GenericDataScreen = ({
     return (
       <View style={styles.emptyState}>
         <Ionicons name="document-outline" size={64} color="#ccc" />
-        <Text style={styles.emptyStateTitle}>No {config.title}</Text>
+        <Text style={styles.emptyStateTitle}>No {moduleConfig.title}</Text>
         <Text style={styles.emptyStateSubtitle}>
-          Tap the + button to create your first {config.title.toLowerCase()}
+          Tap the + button to create your first {moduleConfig.title.toLowerCase()}
         </Text>
       </View>
     );
   };
 
   const renderPaginationInfo = () => {
-    if (!config.pagination.enabled || data.length === 0) return null;
+    if (!moduleConfig.pagination.enabled || data.length === 0) return null;
     
     return (
       <View style={styles.paginationInfo}>
@@ -380,12 +380,12 @@ const GenericDataScreen = ({
       {/* Header */}
       <View style={styles.header}>
         <View style={styles.headerLeft}>
-          <Text style={styles.headerTitle}>{customTitle || config.title}</Text>
+          <Text style={styles.headerTitle}>{customTitle || moduleConfig.title}</Text>
           {renderPaginationInfo()}
         </View>
-        {config.allowCreate && (
+        {moduleConfig.allowCreate && (
           <TouchableOpacity
-            style={[styles.addButton, { backgroundColor: config.theme.primary }]}
+            style={[styles.addButton, { backgroundColor: moduleConfig.theme.primary }]}
             onPress={() => handleOpenModal()}
           >
             <Ionicons name="add" size={24} color="#fff" />
@@ -412,7 +412,7 @@ const GenericDataScreen = ({
       />
 
       {/* Form Modal */}
-      {(config.allowCreate || config.allowEdit) && (
+      {(moduleConfig.allowCreate || moduleConfig.allowEdit) && (
         <Modal
           animationType="slide"
           transparent={false}
@@ -420,10 +420,10 @@ const GenericDataScreen = ({
           onRequestClose={handleCloseModal}
         >
           <SafeAreaView style={styles.modalContainer}>
-            <StatusBar barStyle="light-content" backgroundColor={config.theme.primary} />
+            <StatusBar barStyle="light-content" backgroundColor={moduleConfig.theme.primary} />
             
             {/* Modal Header */}
-            <View style={[styles.modalHeader, { backgroundColor: config.theme.primary }]}>
+            <View style={[styles.modalHeader, { backgroundColor: moduleConfig.theme.primary }]}>
               <TouchableOpacity
                 onPress={handleCloseModal}
                 style={styles.closeButton}
@@ -431,7 +431,7 @@ const GenericDataScreen = ({
                 <Ionicons name="close" size={24} color="#fff" />
               </TouchableOpacity>
               <Text style={styles.modalTitle}>
-                {editingItem ? `Edit ${config.title}` : `New ${config.title}`}
+                {editingItem ? `Edit ${moduleConfig.title}` : `New ${moduleConfig.title}`}
               </Text>
               <View style={styles.headerSpacer} />
             </View>
@@ -439,7 +439,7 @@ const GenericDataScreen = ({
             {/* Modal Content */}
             <ScrollView style={styles.modalContent} showsVerticalScrollIndicator={false}>
               <DynamicForm
-                fields={config.fields}
+                fields={moduleConfig.fields}
                 formData={formData}
                 setFormData={setFormData}
               />
@@ -455,10 +455,10 @@ const GenericDataScreen = ({
               </TouchableOpacity>
               
               <CustomButton
-                title={loading ? "Saving..." : (editingItem ? `Update ${config.title}` : `Create ${config.title}`)}
+                title={loading ? "Saving..." : (editingItem ? `Update ${moduleConfig.title}` : `Create ${moduleConfig.title}`)}
                 onPress={handleSubmit}
                 disabled={loading}
-                style={[styles.submitButton, { backgroundColor: config.theme.primary }]}
+                style={[styles.submitButton, { backgroundColor: moduleConfig.theme.primary }]}
               />
             </View>
           </SafeAreaView>

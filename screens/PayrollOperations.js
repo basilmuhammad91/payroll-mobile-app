@@ -1,4 +1,4 @@
-import { themeConfig } from '@/app/modules/leaves/config';
+import { themeConfig } from '@/config/appConfig';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
