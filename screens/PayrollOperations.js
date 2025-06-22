@@ -33,6 +33,17 @@ export default function PayrollOperations() {
         <Ionicons name="paper-plane" size={24} color="#fff" />
         <Text style={styles.moduleText}>Work Location</Text>
       </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.moduleCard}
+        onPress={() => navigation.navigate("EmployeeTypeScreen")}
+      >
+        <Ionicons name="paper-plane" size={24} color="#fff" />
+        <Text style={styles.moduleText}>
+          Employee Type
+        </Text>
+      </TouchableOpacity>
+
     </View>
   );
 }

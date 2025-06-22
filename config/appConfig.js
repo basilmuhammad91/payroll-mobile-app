@@ -81,3 +81,22 @@ export const workLocationFields = [
   },
 ];
 
+export const employeeTypeFields = [
+  {
+    name: 'employee_type',
+    label: 'Employee Type',
+    placeholder: 'Enter Employee Type Name',
+    type: 'text',
+    icon: 'file-text',
+    required: true,
+  },
+  {
+    name: 'employee_type_description',
+    label: 'Description',
+    placeholder: 'Enter description',
+    type: 'text',
+    icon: 'file-text',
+    required: true,
+  },
+];
+

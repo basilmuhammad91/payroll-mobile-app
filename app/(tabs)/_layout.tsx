@@ -2,6 +2,7 @@ import { IconSymbol } from '@/components/ui/IconSymbol';
 import { themeConfig } from '@/config/appConfig';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import DepartmentScreen from '@/screens/DepartmentScreen';
+import EmployeeTypeScreen from '@/screens/EmployeeTypeScreen';
 import LeaveScreen from '@/screens/LeaveScreen';
 import PayrollOperations from '@/screens/PayrollOperations';
 import WorkLocationScreen from '@/screens/WorkLocationScreen';
@@ -43,10 +44,16 @@ export default function TabLayout() {
           options={{ title: 'Department' }}
         />
 
-         <Stack.Screen
+        <Stack.Screen
           name="WorkLocationScreen"
           component={WorkLocationScreen}
           options={{ title: 'Work Location' }}
+        />
+
+        <Stack.Screen
+          name="EmployeeTypeScreen"
+          component={EmployeeTypeScreen}
+          options={{ title: 'Employee Type' }}
         />
 
       </Stack.Navigator>
