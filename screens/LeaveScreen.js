@@ -11,7 +11,7 @@ export default function LeaveScreen() {
     const EMPLOYER_ID = 'CLIENT-005';
 
     const moduleConfig = {
-      title: 'LeaveScreen Requests',
+      title: 'Leave',
       fields: leaveFields,
       primaryField: 'leaveType',
       statusField: 'status',

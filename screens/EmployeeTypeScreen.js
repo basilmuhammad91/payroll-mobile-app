@@ -11,7 +11,7 @@ export default function EmployeeTypeScreen() {
     const EMPLOYER_ID = 'CLIENT-005';
 
     const moduleConfig = {
-      title: 'EmployeeTypeScreen Requests',
+      title: 'Employee Type',
       fields: employeeTypeFields,
       primaryField: 'employeeTypeType',
       statusField: 'status',

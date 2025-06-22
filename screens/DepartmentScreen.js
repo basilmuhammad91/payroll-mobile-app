@@ -11,7 +11,7 @@ export default function DepartmentScreen() {
     const EMPLOYER_ID = 'CLIENT-005';
 
     const moduleConfig = {
-      title: 'DepartmentScreen Requests',
+      title: 'Department',
       fields: departmentFields,
       primaryField: 'departmentType',
       statusField: 'status',

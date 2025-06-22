@@ -11,7 +11,7 @@ export default function WorkLocationScreen() {
     const EMPLOYER_ID = 'CLIENT-005';
 
     const moduleConfig = {
-      title: 'WorkLocationScreen Requests',
+      title: 'Work Location',
       fields: workLocationFields,
       primaryField: 'workLocationType',
       statusField: 'status',
