@@ -42,3 +42,22 @@ export const leaveFields = [
     required: false,
   },
 ];
+
+export const departmentFields = [
+  {
+    name: 'department',
+    label: 'Department',
+    placeholder: 'Enter Department Name',
+    type: 'text',
+    icon: 'file-text',
+    required: true,
+  },
+  {
+    name: 'department_description',
+    label: 'Description',
+    placeholder: 'Enter description',
+    type: 'text',
+    icon: 'file-text',
+    required: true,
+  },
+];

@@ -1,6 +1,7 @@
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { themeConfig } from '@/config/appConfig';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import DepartmentScreen from '@/screens/DepartmentScreen';
 import LeaveScreen from '@/screens/LeaveScreen';
 import PayrollOperations from '@/screens/PayrollOperations';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -35,6 +36,11 @@ export default function TabLayout() {
           component={LeaveScreen}
           options={{ title: 'Leaves' }}
         />
+        <Stack.Screen
+          name="DepartmentLeaveScreen"
+          component={DepartmentScreen}
+          options={{ title: 'Department' }}
+        />
       </Stack.Navigator>
     );
   }
@@ -49,7 +55,7 @@ export default function TabLayout() {
       }}
     >
       <Tab.Screen
-        name="Leaves"
+        name="Payment Operations"
         component={PaymentOperationStack}
         options={{
           tabBarIcon: ({ color }) => (
