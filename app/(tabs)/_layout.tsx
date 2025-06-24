@@ -6,7 +6,9 @@ import BankScreen from '@/screens/BankScreen';
 import CostCenterScreen from '@/screens/CostCenterScreen';
 import DepartmentScreen from '@/screens/DepartmentScreen';
 import EmployeeTypeScreen from '@/screens/EmployeeTypeScreen';
+import JobTitleScreen from '@/screens/JobTitleScreen';
 import LeaveScreen from '@/screens/LeaveScreen';
+import ManagerScreen from '@/screens/ManagerScreen';
 import ParentCostCenterScreen from '@/screens/ParentCostCenterScreen';
 import PayrollOperations from '@/screens/PayrollOperations';
 import WorkLocationScreen from '@/screens/WorkLocationScreen';
@@ -82,6 +84,18 @@ export default function TabLayout() {
           name="CostCenterScreen"
           component={CostCenterScreen}
           options={{ title: 'Cost Center' }}
+        />
+
+        <Stack.Screen
+          name="ManagerScreen"
+          component={ManagerScreen}
+          options={{ title: 'Manager' }}
+        />
+
+        <Stack.Screen
+          name="JobTitleScreen"
+          component={JobTitleScreen}
+          options={{ title: 'Manager' }}
         />
 
       </Stack.Navigator>

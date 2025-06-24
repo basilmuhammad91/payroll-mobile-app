@@ -1,13 +1,13 @@
 import { themeConfig } from "@/config/appConfig";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ScrollView, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 export default function PayrollOperations() {
   const navigation = useNavigation();
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <Text style={styles.heading}>Payment Operations</Text>
 
       <TouchableOpacity
@@ -39,9 +39,7 @@ export default function PayrollOperations() {
         onPress={() => navigation.navigate("EmployeeTypeScreen")}
       >
         <Ionicons name="paper-plane" size={24} color="#fff" />
-        <Text style={styles.moduleText}>
-          Employee Type
-        </Text>
+        <Text style={styles.moduleText}>Employee Type</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
@@ -49,19 +47,15 @@ export default function PayrollOperations() {
         onPress={() => navigation.navigate("ParentCostCenterScreen")}
       >
         <Ionicons name="paper-plane" size={24} color="#fff" />
-        <Text style={styles.moduleText}>
-          Parent Cost Center
-        </Text>
+        <Text style={styles.moduleText}>Parent Cost Center</Text>
       </TouchableOpacity>
 
-<TouchableOpacity
+      <TouchableOpacity
         style={styles.moduleCard}
         onPress={() => navigation.navigate("BankScreen")}
       >
         <Ionicons name="paper-plane" size={24} color="#fff" />
-        <Text style={styles.moduleText}>
-          Bank Details
-        </Text>
+        <Text style={styles.moduleText}>Bank Details</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
@@ -69,9 +63,7 @@ export default function PayrollOperations() {
         onPress={() => navigation.navigate("AllowanceScreen")}
       >
         <Ionicons name="paper-plane" size={24} color="#fff" />
-        <Text style={styles.moduleText}>
-          Allowances
-        </Text>
+        <Text style={styles.moduleText}>Allowances</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
@@ -79,12 +71,25 @@ export default function PayrollOperations() {
         onPress={() => navigation.navigate("CostCenterScreen")}
       >
         <Ionicons name="paper-plane" size={24} color="#fff" />
-        <Text style={styles.moduleText}>
-          Cost Center
-        </Text>
+        <Text style={styles.moduleText}>Cost Center</Text>
       </TouchableOpacity>
 
-    </View>
+      <TouchableOpacity
+        style={styles.moduleCard}
+        onPress={() => navigation.navigate("ManagerScreen")}
+      >
+        <Ionicons name="paper-plane" size={24} color="#fff" />
+        <Text style={styles.moduleText}>Manager</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.moduleCard}
+        onPress={() => navigation.navigate("JobTitleScreen")}
+      >
+        <Ionicons name="paper-plane" size={24} color="#fff" />
+        <Text style={styles.moduleText}>Job Title</Text>
+      </TouchableOpacity>
+    </ScrollView>
   );
 }
 

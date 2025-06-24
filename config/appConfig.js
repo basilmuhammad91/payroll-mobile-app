@@ -204,3 +204,72 @@ export const costCenterFields = [
     },
   },
 ];
+
+export const managerFields = [
+  {
+    name: 'manager',
+    label: 'Manager',
+    placeholder: 'Enter Manager',
+    type: 'text',
+    icon: 'file-text',
+    required: true,
+  },
+  {
+    name: 'departmentId',
+    label: 'Department',
+    placeholder: 'Select Department',
+    type: 'select', 
+    icon: 'file-text',
+    required: true,
+    optionsSource: {
+      endpoint: '/employees/department?employerId=CLIENT-005&page=1&limit=10',
+      valueKey: '_id', 
+      labelKey: 'department', 
+    },
+  },
+  {
+    name: 'employeeId',
+    label: 'Employee',
+    placeholder: 'Select Employee',
+    type: 'select', 
+    icon: 'file-text',
+    required: true,
+    optionsSource: {
+      endpoint: '/employees',
+      valueKey: '_id', 
+      labelKey: 'firstName', 
+    },
+  },
+];
+
+export const jobTitleFields = [
+  {
+    name: 'job_title',
+    label: 'Job Title',
+    placeholder: 'Enter Job Title',
+    type: 'text',
+    icon: 'file-text',
+    required: true,
+  },
+  {
+    name: 'departmentId',
+    label: 'Department',
+    placeholder: 'Select Department',
+    type: 'select', 
+    icon: 'file-text',
+    required: true,
+    optionsSource: {
+      endpoint: '/employees/department?employerId=CLIENT-005&page=1&limit=10',
+      valueKey: '_id', 
+      labelKey: 'department', 
+    },
+  },
+   {
+    name: 'job_title_description',
+    label: 'Description',
+    placeholder: 'Enter description',
+    type: 'text',
+    icon: 'file-text',
+    required: true,
+  },
+];
