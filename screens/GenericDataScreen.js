@@ -163,8 +163,29 @@ const GenericDataScreen = ({
     }
   };
 
-  const getFieldValue = (item, fieldName) => {
-    return item[fieldName] || 'N/A';
+  // const getFieldValue = (item, field, lookupOptions = {}) => {
+  //   const rawValue = item[field.name];
+  //   if (field?.optionsSource && rawValue && item[field.name]) {
+  //     const options = lookupOptions[field.name];
+  //     console.log("rawValue...", rawValue)
+  //       console.log("it is an array", options)
+  //     if (Array.isArray(options)) {
+  //       const match = options.find(
+  //         (opt) => opt[field.optionsSource.valueKey] === rawValue
+  //       );
+  //       return match ? match[field.optionsSource.labelKey] : 'N/A';
+  //     }
+  //     return 'N/A'; 
+  //   }
+
+  //   return rawValue ?? 'N/A';
+  // };
+
+  const getFieldValue = (item, field) => {
+    if(field?.optionsSource && item[field.name]) {
+      return item[field.name][field.optionsSource.labelKey] || 'N/A';
+    }
+    return item[field.name] || 'N/A';
   };
 
   const getFieldLabel = (fieldName) => {
@@ -272,7 +293,7 @@ const GenericDataScreen = ({
         
         <View style={styles.cardDetails}>
           {moduleConfig.fields.slice(0, 4).map((field) => {
-            const value = getFieldValue(item, field.name);
+            const value = getFieldValue(item, field);
             if (field.name === moduleConfig.statusField || field.name === moduleConfig.primaryField || !value || value === 'N/A') return null;
             
             let displayValue = value;

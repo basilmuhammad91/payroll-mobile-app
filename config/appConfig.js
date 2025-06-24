@@ -105,7 +105,7 @@ export const parentCostCenterFields = [
     name: 'cost_center',
     label: 'Cost Center',
     placeholder: 'Enter Cost Center',
-    type: 'number',
+    type: 'text',
     icon: 'file-text',
     required: true,
   },
