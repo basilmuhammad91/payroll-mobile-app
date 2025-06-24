@@ -56,7 +56,6 @@ const GenericDataScreen = ({
       }
 
       const response = await apiService.getAll(page, moduleConfig.pagination.limit);
-      console.log(`Loaded ${moduleConfig.title.toLowerCase()}:`, response?.data);
       
       const responseData = response.data?.data || response?.data || [];
       const pagination = response.data?.pagination || {};
@@ -162,24 +161,6 @@ const GenericDataScreen = ({
       handleOpenModal(item);
     }
   };
-
-  // const getFieldValue = (item, field, lookupOptions = {}) => {
-  //   const rawValue = item[field.name];
-  //   if (field?.optionsSource && rawValue && item[field.name]) {
-  //     const options = lookupOptions[field.name];
-  //     console.log("rawValue...", rawValue)
-  //       console.log("it is an array", options)
-  //     if (Array.isArray(options)) {
-  //       const match = options.find(
-  //         (opt) => opt[field.optionsSource.valueKey] === rawValue
-  //       );
-  //       return match ? match[field.optionsSource.labelKey] : 'N/A';
-  //     }
-  //     return 'N/A'; 
-  //   }
-
-  //   return rawValue ?? 'N/A';
-  // };
 
   const getFieldValue = (item, field) => {
     if(field?.optionsSource && item[field.name]) {
